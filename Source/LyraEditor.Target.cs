@@ -8,8 +8,19 @@ public class LyraEditorTarget : TargetRules
 	public LyraEditorTarget( TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V5;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
+		
+		
+		
 		ExtraModuleNames.AddRange(new string [] {"LyraGame","LyraEditor"});
+		
+		if (!bBuildAllModules)
+		{
+			NativePointerMemberBehaviorOverride = PointerMemberBehavior.Disallow;
+		}
+		
+		LyraGameTarget.ApplySharedLyraTargetSettings(this);
+		
+		//此功能用于触屏设备开发，同时与“虚幻引擎”应用程序配合使用
+		EnablePlugins.Add("RemoteSession");
 	}
 }
